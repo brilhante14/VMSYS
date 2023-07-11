@@ -1,0 +1,227 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.ufc.tpii.vmsys</groupId>
+  <artifactId>VMSys</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Virtual Machine System</name>
+  <description>Simple Virtual Machine System</description>
+  
+  <properties>
+  	<maven.compiler.source>1.9</maven.compiler.source>
+  	<maven.compiler.target>1.9</maven.compiler.target>
+  </properties>
+  
+  <build>
+	  <plugins>
+	   	<plugin>
+	       <groupId>org.jacoco</groupId>
+	       <artifactId>jacoco-maven-plugin</artifactId>
+	       <version>0.8.9</version>
+	       <configuration>
+				<rules>
+					 <rule>
+				    	<element>BUNDLE</element>
+					    <limits>
+					      <limit>
+					        <counter>INSTRUCTION</counter>
+					        <value>COVEREDRATIO</value>
+					        <minimum>0.80</minimum>
+					      </limit>
+					      <limit>
+					        <counter>CLASS</counter>
+					        <value>MISSEDCOUNT</value>
+					        <maximum>0</maximum>
+					      </limit>
+						  <limit>
+							<counter>COMPLEXITY</counter>
+							<value>COVEREDRATIO</value>
+							<minimum>0.7</minimum>
+						  </limit>
+					    </limits>
+				  	</rule>
+					
+					<rule>
+              			<element>CLASS</element>
+		                 <limits>
+	                     	<limit>
+		                        <counter>LINE</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                     <limit>
+		                        <counter>BRANCH</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                  </limits>
+		                  <excludes>
+		                     <exclude>br.ufc.tpii.vmsys.exceptions.*</exclude>
+		                     <exclude>br.ufc.tpii.vmsys.inventory.exceptions.*</exclude>
+		                  </excludes>
+               		</rule>
+               		
+               		<rule>
+              			<element>PACKAGE</element>
+		                 <limits>
+	                     	<limit>
+		                        <counter>BRANCH</counter>
+		                        <value>MISSEDCOUNT</value>
+		                        <maximum>0</maximum>
+		                     </limit>
+		                     <limit>
+		                        <counter>METHOD</counter>
+		                        <value>MISSEDRATIO</value>
+		                        <maximum>0.30</maximum>
+		                     </limit>
+		                  </limits>
+		                  <excludes>
+		                     <exclude>br.ufc.tpii.vmsys.exceptions</exclude>
+		                     <exclude>br.ufc.tpii.vmsys.inventory.exceptions</exclude>
+		                  </excludes>
+               		</rule>
+               		<rule>
+              			<element>SOURCEFILE</element>
+		                 <limits>
+	                     	<limit>
+		                        <counter>INSTRUCTION</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                     <limit>
+		                        <counter>COMPLEXITY</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                  </limits>
+		                  <excludes>
+		                     <exclude>br/ufc/tpii/vmsys/exceptions/*</exclude>
+		                     <exclude>br/ufc/tpii/vmsys/inventory/exceptions/*</exclude>
+		                  </excludes>
+               		</rule>
+               		
+               		<rule>
+              			<element>METHOD</element>
+		                 <limits>
+	                     	<limit>
+		                        <counter>LINE</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                     <limit>
+		                        <counter>BRANCH</counter>
+		                        <value>COVEREDRATIO</value>
+		                        <minimum>0.70</minimum>
+		                     </limit>
+		                  </limits>
+		                  <excludes>
+		                     <exclude>br.ufc.tpii.vmsys.exceptions.*</exclude>
+		                     <exclude>br.ufc.tpii.vmsys.inventory.exceptions.*</exclude>
+		                  </excludes>
+               		</rule>
+               		
+				</rules>
+			</configuration>
+	       <executions>
+	           <!-- Prepares the property pointing to the JaCoCo runtime agent which
+	               is passed as VM argument when Maven the Surefire plugin is executed. -->
+           		<execution>
+               		<id>default-prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+               		<id>default-report</id>
+               		<phase>test</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+              <execution>
+					<id>default-check</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>check</goal>
+					</goals>
+					
+				</execution>
+             </executions>
+       	</plugin>
+       	
+        <plugin>
+		    <groupId>org.pitest</groupId>
+		    <artifactId>pitest-maven</artifactId>
+		    <version>1.13.0</version>
+	        <executions>
+                <execution>
+                    <id>pit-report</id>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>mutationCoverage</goal>
+                    </goals>
+                </execution>
+            </executions>
+            
+		    <dependencies>
+				<dependency>
+				    <groupId>org.pitest</groupId>
+				    <artifactId>pitest-junit5-plugin</artifactId>
+				    <version>1.1.1</version>
+			  	</dependency>
+			</dependencies>
+			
+		     <configuration>
+		        <targetClasses>
+		            <param>br.ufc.tpii.vmsys*</param>
+		        </targetClasses>
+		        <targetTests>
+		            <param>br.ufc.tpii.vmsys*</param>
+		        </targetTests>
+		    </configuration>
+		</plugin>
+   
+       </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>4.0.0-M7</version>
+                </plugin>
+                
+             
+            </plugins>
+        </pluginManagement>
+    </build>
+   
+  <dependencies>
+	<!-- https://mvnrepository.com/artifact/xmlpull/xmlpull -->
+	<dependency>
+	    <groupId>xmlpull</groupId>
+	    <artifactId>xmlpull</artifactId>
+	    <version>1.1.3.1</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+	<dependency>
+	    <groupId>com.thoughtworks.xstream</groupId>
+	    <artifactId>xstream</artifactId>
+	    <version>1.4.9</version>	
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+	<dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-engine</artifactId>
+	    <version>5.9.2</version>
+	    <scope>test</scope>
+	</dependency>
+  </dependencies>
+  
+</project>
